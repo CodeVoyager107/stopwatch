@@ -1,109 +1,78 @@
-* {
+body {
   margin: 0;
   padding: 0;
-  font-family: "Popins", sans-serif;
-  box-sizing: border-box;
-}
-
-body {
-  background-color: #222;
-}
-
-.card {
-  width: 90%;
-  max-width: 470px;
-  background: linear-gradient(135deg, #00feba, #5b548a);
+  font-family: 'Segoe UI', sans-serif;
+  background: #121212;
   color: #fff;
-  margin: 100px auto 0;
-  border-radius: 20px;
-  padding: 40px 35px;
-  text-align: center;
-}
-
-.search {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.search input {
-  border: 0;
-  outline: 0;
-  background: #ebfffc;
-  color: #555;
-  padding: 10px 25px;
-  height: 60px;
-  border-radius: 30px;
-  flex: 1;
-  margin-right: 16px;
-  font-size: 18px;
-}
-
-.search button {
-  border: 0;
-  outline: 0;
-  background: #ebfffc;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  cursor: pointer;
-}
-
-.search button img {
-  width: 16px;
-}
-
-.weather-icon {
-  width: 170px;
-  margin-top: 30px;
-}
-
-.weather h1 {
-  font-size: 80px;
-  font-weight: 500;
-}
-
-.weather h2 {
-  font-size: 45px;
-  font-weight: 400;
-  margin-top: -10px;
-}
-
-.details {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 20px;
-  margin-top: 50px;
+  min-height: 100vh;
 }
 
-.col {
-  display: flex;
-  align-items: center;
+.container {
+  background: #1e1e1e;
+  padding: 40px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  width: 90%;
+  max-width: 400px;
+}
+
+h1 {
+  margin-bottom: 20px;
+  font-size: 28px;
+  color: #00ffcc;
+}
+
+#time-display {
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  transition: all 0.2s ease-in-out;
+}
+
+.controls button {
+  padding: 10px 18px;
+  font-size: 16px;
+  margin: 6px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#startPauseBtn {
+  background-color: #00cc66;
+  color: white;
+}
+
+.controls button:nth-child(2) {
+  background-color: #cc0000;
+  color: white;
+}
+
+.controls button:nth-child(3) {
+  background-color: #0099ff;
+  color: white;
+}
+
+.controls button:hover {
+  opacity: 0.85;
+}
+
+#lap-list {
+  list-style: none;
+  margin-top: 20px;
+  max-height: 200px;
+  overflow-y: auto;
+  padding: 0;
   text-align: left;
 }
 
-.col img {
-  width: 40px;
-  margin-right: 10px;
-}
-
-.humidity,
-.wind {
-  font-size: 20px;
-  margin-top: -6px;
-}
-
-.weather {
-  display: none;
-}
-
-.error {
-  text-align: left;
-  margin-left: 10px;
-  font-size: 14px;
-  margin-top: 10px;
-  display: none;
-  color: red;
+#lap-list li {
+  border-bottom: 1px solid #444;
+  padding: 8px;
+  font-family: monospace;
 }
