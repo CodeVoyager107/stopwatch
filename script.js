@@ -1,44 +1,58 @@
-const apiKey = "7d5e74e7b112e34001dc87b79a2fc7c3";
-const apiUrl =
-  "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
-const searchBox = document.querySelector(".search input");
-const searchBtn = document.querySelector(".search button");
-const weatherIcon = document.querySelector(".weather-icon");
+let startTime = 0;
+let elapsedTime = 0;
+let timerInterval;
+let isRunning = false;
+let lapCounter = 0;
 
-async function checkWheather(city) {
-  const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
+const display = document.getElementById("time-display");
+const lapList = document.getElementById("lap-list");
+const startPauseBtn = document.getElementById("startPauseBtn");
 
-  if (response.status == 404) {
-    document.querySelector(".error").style.display = "block";
-    document.querySelector(".weather").style.display = "none";
+function timeToString(time) {
+  const ms = String(time % 1000).padStart(3, '0');
+  const secs = String(Math.floor((time / 1000) % 60)).padStart(2, '0');
+  const mins = String(Math.floor((time / 60000) % 60)).padStart(2, '0');
+  const hrs = String(Math.floor(time / 3600000)).padStart(2, '0');
+  return `${hrs}:${mins}:${secs}.${ms}`;
+}
+
+function updateDisplay() {
+  elapsedTime = Date.now() - startTime;
+  display.textContent = timeToString(elapsedTime);
+}
+
+function startPause() {
+  if (!isRunning) {
+    startTime = Date.now() - elapsedTime;
+    timerInterval = setInterval(updateDisplay, 10);
+    isRunning = true;
+    startPauseBtn.textContent = "Pause";
+    startPauseBtn.style.backgroundColor = "#ff9933";
   } else {
-    var data = await response.json();
-
-    document.querySelector(".city").innerHTML = data.name;
-    document.querySelector(".temp").innerHTML =
-      Math.round(data.main.temp) + "*C";
-    document.querySelector(".humidity").innerHTML = data.wind.speed + " km/h";
-
-    console.log(data.weather[0].main);
-    if (data.weather[0].main == "Clouds") {
-      weatherIcon.src = "img/clouds.png";
-    } else if (data.weather[0].main == "Clear") {
-      weatherIcon.src = "img/clear.png";
-    } else if (data.weather[0].main == "Rain") {
-      weatherIcon.src = "img/rain.png";
-    } else if (data.weather[0].main == "Drizzle") {
-      weatherIcon.src = "img/drizzle.png";
-    } else if (data.weather[0].main == "Mist") {
-      weatherIcon.src = "img/mist.png";
-    }
-
-    document.querySelector(".weather").style.display = "block";
-    document.querySelector(".error").style.display = "none";
+    clearInterval(timerInterval);
+    isRunning = false;
+    startPauseBtn.textContent = "Resume";
+    startPauseBtn.style.backgroundColor = "#00cc66";
   }
 }
 
-searchBtn.addEventListener("click", () => {
-  checkWheather(searchBox.value);
-});
+function reset() {
+  clearInterval(timerInterval);
+  elapsedTime = 0;
+  isRunning = false;
+  display.textContent = "00:00:00.000";
+  startPauseBtn.textContent = "Start";
+  startPauseBtn.style.backgroundColor = "#00cc66";
+  lapList.innerHTML = "";
+  lapCounter = 0;
+}
 
-checkWheather();
+function recordLap() {
+  if (!isRunning) return;
+
+  lapCounter++;
+  const lapTime = timeToString(elapsedTime);
+  const li = document.createElement("li");
+  li.textContent = `Lap ${lapCounter}: ${lapTime}`;
+  lapList.appendChild(li);
+}
