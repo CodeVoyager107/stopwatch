@@ -1,58 +1,35 @@
-let startTime = 0;
-let elapsedTime = 0;
-let timerInterval;
-let isRunning = false;
-let lapCounter = 0;
+let [milliseconds, seconds, minutes, hours] = [0, 0, 0, 0];
+let timerRef = document.querySelector(".timer-display");
+let int = null;
 
-const display = document.getElementById("time-display");
-const lapList = document.getElementById("lap-list");
-const startPauseBtn = document.getElementById("startPauseBtn");
-
-function timeToString(time) {
-  const ms = String(time % 1000).padStart(3, '0');
-  const secs = String(Math.floor((time / 1000) % 60)).padStart(2, '0');
-  const mins = String(Math.floor((time / 60000) % 60)).padStart(2, '0');
-  const hrs = String(Math.floor(time / 3600000)).padStart(2, '0');
-  return `${hrs}:${mins}:${secs}.${ms}`;
-}
-
-function updateDisplay() {
-  elapsedTime = Date.now() - startTime;
-  display.textContent = timeToString(elapsedTime);
-}
-
-function startPause() {
-  if (!isRunning) {
-    startTime = Date.now() - elapsedTime;
-    timerInterval = setInterval(updateDisplay, 10);
-    isRunning = true;
-    startPauseBtn.textContent = "Pause";
-    startPauseBtn.style.backgroundColor = "#ff9933";
-  } else {
-    clearInterval(timerInterval);
-    isRunning = false;
-    startPauseBtn.textContent = "Resume";
-    startPauseBtn.style.backgroundColor = "#00cc66";
+document.getElementById("start-timer").addEventListener("click", () => {
+  if (int !== null) {
+    clearInterval(int);
   }
+  int = setInterval(displayTimer, 10);
+});
+
+function displayTimer() {
+  milliseconds += 10;
+  seconds = milliseconds == 1000 ? (seconds + 1) % 60 : seconds;
+  minutes = seconds == 0 && milliseconds == 0 ? (minutes + 1) % 60 : minutes;
+  hours = minutes == 0 && seconds == 0 && milliseconds == 0 ? hours + 1 : hours;
+  milliseconds = milliseconds == 1000 ? 0 : milliseconds;
+
+  let h = String(hours).padStart(2, "0");
+  let m = String(minutes).padStart(2, "0");
+  let s = String(seconds).padStart(2, "0");
+  let ms = String(milliseconds).padStart(3, "0");
+
+  timerRef.innerHTML = `${h} : ${m} : ${s} : ${ms}`;
 }
 
-function reset() {
-  clearInterval(timerInterval);
-  elapsedTime = 0;
-  isRunning = false;
-  display.textContent = "00:00:00.000";
-  startPauseBtn.textContent = "Start";
-  startPauseBtn.style.backgroundColor = "#00cc66";
-  lapList.innerHTML = "";
-  lapCounter = 0;
-}
+document.getElementById("pause-timer").addEventListener("click", () => {
+  clearInterval(int);
+});
 
-function recordLap() {
-  if (!isRunning) return;
-
-  lapCounter++;
-  const lapTime = timeToString(elapsedTime);
-  const li = document.createElement("li");
-  li.textContent = `Lap ${lapCounter}: ${lapTime}`;
-  lapList.appendChild(li);
-}
+document.getElementById("reset-timer").addEventListener("click", () => {
+  clearInterval(int);
+  [milliseconds, seconds, minutes, hours] = [0, 0, 0, 0];
+  timerRef.innerHTML = "00 : 00 : 00 : 000";
+});
