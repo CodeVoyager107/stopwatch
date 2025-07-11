@@ -3,11 +3,13 @@
   margin: 0;
   box-sizing: border-box;
 }
+
 body {
-  background-color: #dbe9ff;
+  background-color: #d7fbe8; /* soft green background */
 }
+
 .container {
-  background-color: #f0f9ff;
+  background-color: #ecfff5; /* very light green */
   position: absolute;
   transform: translate(-50%, -50%);
   left: 50%;
@@ -15,41 +17,50 @@ body {
   width: min(90%, 31.25em);
   padding: 3.75em 0;
   border-radius: 0.8em;
-  box-shadow: 0 1.97em 3.75em rgba(1, 87, 185, 0.2);
+  box-shadow: 0 1.97em 3.75em rgba(0, 128, 0, 0.2); /* greenish shadow */
 }
+
 .timer-display {
   position: relative;
   width: 110%;
-  background-color: #3c98ff;
+  background-color: #2ecc71; /* main green */
   left: -5%;
   padding: 1em 0;
   font-family: "Roboto Mono", monospace;
-  color: #f0f9ff;
+  color: #ecfff5;
   font-size: 2.5em;
   display: flex;
   align-items: center;
   justify-content: space-around;
   border-radius: 0.3em;
-  box-shadow: 0 0.5em 1em rgba(1, 87, 185, 0.2);
+  box-shadow: 0 0.5em 1em rgba(0, 128, 0, 0.2);
 }
+
 .buttons {
   width: 80%;
   margin: 3.8em auto 0 auto;
   display: flex;
   justify-content: space-around;
 }
+
 .buttons button {
   font-size: 1.12em;
-  background-color: #dbe9ff;
-  color: #3c98ff;
+  background-color: #d7fbe8; /* soft green */
+  color: #2ecc71; /* matching text */
   border: none;
   font-family: "Poppins", sans-serif;
   border-radius: 0.5em;
   padding: 1em 1.5em;
   cursor: pointer;
   outline: none;
+  transition: background-color 0.3s;
 }
+
+.buttons button:hover {
+  background-color: #baf3d1; /* slightly darker on hover */
+}
+
 #start-timer {
-  background-color: #3c98ff;
-  color: #f0f9ff;
+  background-color: #2ecc71;
+  color: #ecfff5;
 }
